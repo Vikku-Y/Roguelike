@@ -27,41 +27,31 @@ public class MapManager : MonoBehaviour {
     public int spawnX = 1;
     public int spawnY = 1;
 
-    private int m_tile;
-
     public Grid grid;
 
-    // Start is called before the first frame update
-    void Start() {
+    public void GenerateMap()
+    {
         m_BoardData = new CellData[mapTilesX, mapTilesY];
-
-        for (int x = 0; x < mapTilesX; x++) {
-
-            for (int y = 0; y < mapTilesY; y++) {
-
+        for (int x = 0; x < mapTilesX; x++)
+        {
+            for (int y = 0; y < mapTilesY; y++)
+            {
                 m_BoardData[x, y] = new CellData();
                 Vector3Int tileCords = new Vector3Int(x, y, 0);
 
-                if (x == 0 || x == mapTilesX - 1 || y == 0 || y == mapTilesY - 1) {
+                if (x == 0 || x == mapTilesX - 1 || y == 0 || y == mapTilesY - 1)
+                {
                     m_BoardData[x, y].passable = false;
-                    m_tile = Random.Range(0, wallTiles.Length);
-                    tileMap.SetTile(tileCords, wallTiles[m_tile]);
-                } else {
+                    tileMap.SetTile(tileCords, wallTiles[Random.Range(0, wallTiles.Length)]);
+                }
+                else
+                {
                     m_BoardData[x, y].passable = true;
-                    m_tile = Random.Range(0, groundTiles.Length);
-                    tileMap.SetTile(tileCords, groundTiles[m_tile]);
+                    tileMap.SetTile(tileCords, groundTiles[Random.Range(0, groundTiles.Length)]);
                 }
 
             }
         }
-
-        playerCont.Spawn(this, new Vector2Int(spawnX, spawnY));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public Vector3 CellToWorld (Vector2Int cellIndex)

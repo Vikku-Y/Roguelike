@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -8,19 +9,6 @@ public class PlayerController : MonoBehaviour
 {
     private MapManager m_Map;
     private Vector2Int m_CellPosition;
-
-    public void Spawn(MapManager mapManager, Vector2Int cell)
-    {
-        m_Map = mapManager;
-        m_CellPosition = cell;
-
-        transform.position = m_Map.CellToWorld(cell);
-    }
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     private void Update()
@@ -41,20 +29,39 @@ public class PlayerController : MonoBehaviour
         {
             newCellTarget.x -= 1;
             hasMoved = true;
+
+            if (!GetComponent<SpriteRenderer>().flipX) { 
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
         }
         else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
         {
             newCellTarget.x += 1;
             hasMoved = true;
+
+            if (GetComponent<SpriteRenderer>().flipX)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
 
         if (hasMoved) { 
             MapManager.CellData cellData = m_Map.GetCellData(newCellTarget);
 
             if (cellData != null && cellData.passable) {
-                m_CellPosition = newCellTarget;
-                transform.position = m_Map.CellToWorld(m_CellPosition);
+                MoveTo(newCellTarget);
             }
         }
+    }
+    public void Spawn(MapManager mapManager, Vector2Int cell)
+    {
+        m_Map = mapManager;
+        
+        MoveTo(cell);
+    }
+    public void MoveTo(Vector2Int cell)
+    {
+        m_CellPosition = cell;
+        transform.position = m_Map.CellToWorld(m_CellPosition);
     }
 }
