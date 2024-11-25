@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
 {
     private MapManager m_Map;
     private Vector2Int m_CellPosition;
-    public int foodPerMove;
 
     // Update is called once per frame
     private void Update()

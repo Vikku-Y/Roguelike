@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label tabindex="-1" text="Comida: Dimelo tu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FoodLabel" style="-unity-font: url(&quot;project://database/Assets/Fonts/Minecraft.ttf?fileID=12800000&amp;guid=bfe7984bcd83c484ca08cbe97cc8c8ae&amp;type=3#Minecraft&quot;); -unity-font-definition: initial; color: rgb(255, 255, 255); font-size: 79px; position: absolute; top: auto; left: 0; bottom: 0; right: 0; -unity-text-align: upper-center;" />
+</ui:UXML>

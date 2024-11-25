@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
 
     private int m_food = 100;
+
+    public UIDocument UIDoc;
+    private Label m_foodLabel;
 
     //Singleton logic: Si no hay instancia se crea, si no, me mato (:
     private void Awake()
@@ -28,10 +32,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         turnManager = new TurnManager();
-        turnManager.OnTick += onTurnHappen;
+        turnManager.OnTick += OnTurnHappen;
 
         mapManager.GenerateMap();
         playerController.Spawn(mapManager, new Vector2Int(mapManager.spawnX, mapManager.spawnY));
+
+        //Dentro de la UI en el elemento raiz busca (Q) el elemento con label ("texto")
+        m_foodLabel =  UIDoc.rootVisualElement.Q<Label>("FoodLabel");
+        m_foodLabel.text = "Comida: " + m_food;
     }
 
     // Update is called once per frame
@@ -40,9 +48,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void onTurnHappen()
+    public void OnTurnHappen()
     {
         m_food--;
-        Debug.Log(m_food);
+        m_foodLabel.text = "Comida: " + m_food;
     }
 }
