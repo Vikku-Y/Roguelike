@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     private MapManager m_Map;
     private Vector2Int m_CellPosition;
+    public int foodPerMove;
 
     // Update is called once per frame
     private void Update()
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
             if (cellData != null && cellData.passable) {
                 MoveTo(newCellTarget);
+                GameManager.Instance.turnManager.turnTick();
             }
         }
     }

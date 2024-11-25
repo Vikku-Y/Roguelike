@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class TurnManager
 {
-    private int turnCount = 1;
+    //Callback
+    public event System.Action OnTick;
+    public int turnCount = 1;
 
-    public void turnAdvance()
+    public void turnTick()
     {
         turnCount++;
+        //? -> if ontick != null
+        OnTick?.Invoke();
+        Debug.Log(turnCount.ToString());
     }
 }
