@@ -9,7 +9,7 @@ public class MapManager : MonoBehaviour {
     public class CellData {
 
         public bool passable;
-        public GameObject ContainedObject;
+        public CellObject ContainedObject;
     }
 
     private CellData[,] m_BoardData;
@@ -30,11 +30,15 @@ public class MapManager : MonoBehaviour {
 
     public Grid grid;
 
-    public GameObject FoodPrefab;
+    public FoodObject[] foodPrefabs;
+
+    private List<Vector2Int> m_EmptyCells;
 
     public void GenerateMap()
     {
         m_BoardData = new CellData[mapTilesX, mapTilesY];
+        m_EmptyCells = new List<Vector2Int>();
+
         for (int x = 0; x < mapTilesX; x++)
         {
             for (int y = 0; y < mapTilesY; y++)
@@ -51,12 +55,16 @@ public class MapManager : MonoBehaviour {
                 {
                     m_BoardData[x, y].passable = true;
                     tileMap.SetTile(tileCords, groundTiles[Random.Range(0, groundTiles.Length)]);
+
+                    //Añade casilla a lista de casillas vacias
+                    m_EmptyCells.Add(new Vector2Int(x, y));
                 }
 
             }
         }
+        m_EmptyCells.Remove(new Vector2Int(1,1));
 
-        spreadFood(3);
+        generateFood(5);
     }
 
     public Vector3 CellToWorld (Vector2Int cellIndex)
@@ -75,25 +83,19 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    //Spawn de comida
-    public void spreadFood(int foodNumber)
+    public void generateFood(int foodNumber)
     {
-        int foods = 0;
-        while (foods < foodNumber)
+        for (int i = 0; i < foodNumber; i++)
         {
-            int x = Random.Range(0, mapTilesX-1);
-            int y = Random.Range(0, mapTilesY-1);
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int cords = m_EmptyCells[randomIndex];
+            CellData cell = m_BoardData[cords.x, cords.y];
 
-            if (m_BoardData[x, y].ContainedObject == null && m_BoardData[x, y].passable)
-            {
-                m_BoardData[x, y].ContainedObject = FoodPrefab;
-                Vector2Int tileCords = new Vector2Int(x, y);
+            m_EmptyCells.RemoveAt(randomIndex);
 
-                Instantiate(m_BoardData[x, y].ContainedObject);
-                m_BoardData[x, y].ContainedObject.transform.position = CellToWorld(tileCords);
-
-                foods++;
-            }
+            FoodObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);
+            cell.ContainedObject = newFood;
+            cell.ContainedObject.transform.position = CellToWorld(cords);
         }
     }
 }

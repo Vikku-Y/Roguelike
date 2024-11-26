@@ -797,7 +797,9 @@ MonoBehaviour:
   spawnX: 1
   spawnY: 1
   grid: {fileID: 1943424798}
-  FoodPrefab: {fileID: 0}
+  foodPrefabs:
+  - {fileID: 1304501225681309867, guid: 00e9fe08b5efe414d945bf3282214dd1, type: 3}
+  - {fileID: 9176264525430231484, guid: 54c95a88ac375bf4280dfaf9cf250fa4, type: 3}
 --- !u!1 &1943424797
 GameObject:
   m_ObjectHideFlags: 0

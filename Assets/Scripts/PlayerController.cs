@@ -50,6 +50,11 @@ public class PlayerController : MonoBehaviour
             MapManager.CellData cellData = m_Map.GetCellData(newCellTarget);
 
             if (cellData != null && cellData.passable) {
+                if (cellData.ContainedObject != null)
+                {
+                    cellData.ContainedObject.PlayerEntered();
+                }
+
                 MoveTo(newCellTarget);
                 GameManager.Instance.turnManager.turnTick();
             }
