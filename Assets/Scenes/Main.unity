@@ -786,12 +786,6 @@ MonoBehaviour:
   wallTiles:
   - {fileID: 11400000, guid: c1779fa67622e384cacb95671073fe64, type: 2}
   - {fileID: 11400000, guid: 748579745ba819f4bb4dcac7ff2fea83, type: 2}
-  obstacleTiles:
-  - {fileID: 11400000, guid: 40e632e06f47b0247a511d7cd9ea3ba8, type: 2}
-  - {fileID: 11400000, guid: 05fff34c8d9efd94381b589b27b9f0f8, type: 2}
-  - {fileID: 11400000, guid: 912a576bcc635bf4186af5fc926e7d80, type: 2}
-  - {fileID: 11400000, guid: 28799e19e8e13534689b657426749b8e, type: 2}
-  - {fileID: 11400000, guid: 3fe163f8cbd9e7c48a78173acfda2b6c, type: 2}
   mapTilesX: 8
   mapTilesY: 8
   spawnX: 1
@@ -800,6 +794,10 @@ MonoBehaviour:
   foodPrefabs:
   - {fileID: 1304501225681309867, guid: 00e9fe08b5efe414d945bf3282214dd1, type: 3}
   - {fileID: 9176264525430231484, guid: 54c95a88ac375bf4280dfaf9cf250fa4, type: 3}
+  wallPrefabs:
+  - {fileID: 4945428772736318218, guid: 79f05f5aebfc5ce4bb2a3c31948f0758, type: 3}
+  - {fileID: 210611031867252726, guid: 2aa27797d35f74d47b3668139723cfb5, type: 3}
+  - {fileID: 6577709089667888721, guid: 3305b45a0264c6c49b0044286ce0bfc1, type: 3}
 --- !u!1 &1943424797
 GameObject:
   m_ObjectHideFlags: 0

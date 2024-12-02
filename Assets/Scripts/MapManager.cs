@@ -20,7 +20,6 @@ public class MapManager : MonoBehaviour {
 
     public Tile[] groundTiles;
     public Tile[] wallTiles;
-    public Tile[] obstacleTiles;
 
     public int mapTilesX = 8;
     public int mapTilesY = 8;
@@ -31,6 +30,7 @@ public class MapManager : MonoBehaviour {
     public Grid grid;
 
     public FoodObject[] foodPrefabs;
+    public WallObject[] wallPrefabs;
 
     private List<Vector2Int> m_EmptyCells;
 
@@ -64,6 +64,7 @@ public class MapManager : MonoBehaviour {
         }
         m_EmptyCells.Remove(new Vector2Int(1,1));
 
+        generateWall(Random.Range(5, 11));
         generateFood(5);
     }
 
@@ -89,13 +90,41 @@ public class MapManager : MonoBehaviour {
         {
             int randomIndex = Random.Range(0, m_EmptyCells.Count);
             Vector2Int cords = m_EmptyCells[randomIndex];
-            CellData cell = m_BoardData[cords.x, cords.y];
 
+            AddObject(foodPrefabs[Random.Range(0, foodPrefabs.Length)], cords);
             m_EmptyCells.RemoveAt(randomIndex);
-
-            FoodObject newFood = Instantiate(foodPrefabs[Random.Range(0, foodPrefabs.Length)]);
-            cell.ContainedObject = newFood;
-            cell.ContainedObject.transform.position = CellToWorld(cords);
         }
+    }
+
+    public void generateWall(int wallNumber)
+    {
+        for (int i = 0; i < wallNumber; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int cords = m_EmptyCells[randomIndex];
+
+            AddObject(wallPrefabs[Random.Range(0, wallPrefabs.Length)], cords);
+            m_EmptyCells.RemoveAt(randomIndex);
+        }
+    }
+
+    public void AddObject(CellObject addedObject, Vector2Int cords) {
+        CellData cell = m_BoardData[cords.x, cords.y];
+        
+        CellObject newObject = Instantiate(addedObject);
+        newObject.transform.position = CellToWorld(cords);
+        cell.ContainedObject = newObject;
+        newObject.Init(cords);
+
+    }
+
+    public void SetCellTile(Vector2Int cellIndex, Tile tile)
+    {
+        tileMap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y), tile);
+    }
+
+    public Tile GetCellTile(Vector2Int cellIndex)
+    {
+        return tileMap.GetTile<Tile>(new Vector3Int(cellIndex.x, cellIndex.y, 0));
     }
 }

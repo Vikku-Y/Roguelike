@@ -50,14 +50,17 @@ public class PlayerController : MonoBehaviour
             MapManager.CellData cellData = m_Map.GetCellData(newCellTarget);
 
             if (cellData != null && cellData.passable) {
-                if (cellData.ContainedObject != null)
+                GameManager.Instance.turnManager.turnTick();
+
+                if (cellData.ContainedObject == null)
                 {
+                    MoveTo(newCellTarget);
+                } else if (cellData.ContainedObject.PlayerWantsToEnter())
+                {
+                    MoveTo(newCellTarget);
                     cellData.ContainedObject.PlayerEntered();
                 }
-
-                MoveTo(newCellTarget);
-                GameManager.Instance.turnManager.turnTick();
-            }
+            } 
         }
     }
     public void Spawn(MapManager mapManager, Vector2Int cell)
