@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
             newCellTarget.x -= 1;
             hasMoved = true;
 
-            if (!GetComponent<SpriteRenderer>().flipX) { 
+            if (!GetComponent<SpriteRenderer>().flipX && GameManager.Instance.food > 0) { 
                 GetComponent<SpriteRenderer>().flipX = true;
             }
         }
@@ -40,13 +40,13 @@ public class PlayerController : MonoBehaviour
             newCellTarget.x += 1;
             hasMoved = true;
 
-            if (GetComponent<SpriteRenderer>().flipX)
+            if (GetComponent<SpriteRenderer>().flipX && GameManager.Instance.food > 0)
             {
                 GetComponent<SpriteRenderer>().flipX = false;
             }
         }
 
-        if (hasMoved) { 
+        if (hasMoved && GameManager.Instance.food > 0) { 
             MapManager.CellData cellData = m_Map.GetCellData(newCellTarget);
 
             if (cellData != null && cellData.passable) {

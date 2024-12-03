@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
     public MapManager mapManager;
     public PlayerController playerController;
 
-    private int m_food = 100;
+    public int food = 100;
+    private int m_level = 1;
 
     public UIDocument UIDoc;
     private Label m_foodLabel;
+    private Label m_levelLabel;
 
     //Singleton logic: Si no hay instancia se crea, si no, me mato (:
     private void Awake()
@@ -34,12 +36,14 @@ public class GameManager : MonoBehaviour
         turnManager = new TurnManager();
         turnManager.OnTick += OnTurnHappen;
 
-        mapManager.GenerateMap();
-        playerController.Spawn(mapManager, new Vector2Int(mapManager.spawnX, mapManager.spawnY));
+        StartMap();
 
         //Dentro de la UI en el elemento raiz busca (Q) el elemento con label ("texto")
         m_foodLabel =  UIDoc.rootVisualElement.Q<Label>("FoodLabel");
-        m_foodLabel.text = "Comida: " + m_food;
+        m_foodLabel.text = "Comida: " + food;
+
+        m_levelLabel =  UIDoc.rootVisualElement.Q<Label>("LevelLabel");
+        m_levelLabel.text = "Nivel: " + m_level;
     }
 
     // Update is called once per frame
@@ -48,14 +52,47 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void StartMap()
+    {
+        int spawnX = Random.Range(1, mapManager.mapTilesX - 2);
+        int spawnY = Random.Range(1, mapManager.mapTilesY - 2);
+        int exitX = 6;
+        int exitY = 6;
+
+        if (spawnX > 1)
+        {
+            exitX = 1;
+            spawnX = mapManager.mapTilesX - 2;
+        }
+
+        if (spawnY > 1)
+        {
+            exitY = 1;
+            spawnY = mapManager.mapTilesY - 2;
+        }
+
+        mapManager.GenerateMap(new Vector2Int(exitX, exitY), new Vector2Int(spawnX, spawnY));
+        playerController.Spawn(mapManager, new Vector2Int(spawnX, spawnY));
+    }
+
     public void OnTurnHappen()
     {
-        ChangeFood(-1);
+        ChangeFood(-3);
     }
 
     public void ChangeFood(int amount)
     {
-        m_food+=amount;
-        m_foodLabel.text = "Comida: " + m_food;
+        food+=amount;
+        m_foodLabel.text = "Comida: " + food;
+    }
+
+    public void LevelClear()
+    {
+        m_level++;
+        m_levelLabel.text = "Nivel: " + m_level;
+
+        mapManager.CleanMap();
+
+        StartMap();
     }
 }

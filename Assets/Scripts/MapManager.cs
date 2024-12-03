@@ -24,17 +24,15 @@ public class MapManager : MonoBehaviour {
     public int mapTilesX = 8;
     public int mapTilesY = 8;
 
-    public int spawnX = 1;
-    public int spawnY = 1;
-
     public Grid grid;
 
     public FoodObject[] foodPrefabs;
     public WallObject[] wallPrefabs;
+    public ExitCellObject exitPrefab;
 
     private List<Vector2Int> m_EmptyCells;
 
-    public void GenerateMap()
+    public void GenerateMap(Vector2Int exit, Vector2Int spawn)
     {
         m_BoardData = new CellData[mapTilesX, mapTilesY];
         m_EmptyCells = new List<Vector2Int>();
@@ -62,8 +60,9 @@ public class MapManager : MonoBehaviour {
 
             }
         }
-        m_EmptyCells.Remove(new Vector2Int(1,1));
+        m_EmptyCells.Remove(spawn);
 
+        generateExit(exit);
         generateWall(Random.Range(5, 11));
         generateFood(5);
     }
@@ -81,6 +80,27 @@ public class MapManager : MonoBehaviour {
         } else
         {
             return m_BoardData[cellIndex.x, cellIndex.y];
+        }
+    }
+
+    public void CleanMap()
+    {
+        if (m_BoardData != null)
+        {
+            for (int x = 0; x < mapTilesX; x++)
+            {
+                for (int y = 0; y < mapTilesY; y++)
+                {
+                    if (m_BoardData[x, y].ContainedObject)
+                    {
+                        Destroy(m_BoardData[x, y].ContainedObject.gameObject);
+                    }
+                    SetCellTile(new Vector2Int(x, y), null);
+                }
+            }
+
+            m_BoardData = null;
+            m_EmptyCells = null;
         }
     }
 
@@ -106,6 +126,12 @@ public class MapManager : MonoBehaviour {
             AddObject(wallPrefabs[Random.Range(0, wallPrefabs.Length)], cords);
             m_EmptyCells.RemoveAt(randomIndex);
         }
+    }
+
+    public void generateExit(Vector2Int exit)
+    {
+        AddObject(exitPrefab, exit);
+        m_EmptyCells.Remove(exit);
     }
 
     public void AddObject(CellObject addedObject, Vector2Int cords) {

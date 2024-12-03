@@ -8,8 +8,8 @@ public class WallObject : CellObject
 {
     private Tile m_OriginalTile;
     private Vector2Int m_OriginalPosition;
-    public Tile ObstacleTile;
-    public Tile DamagedTile;
+    public Tile obstacleTile;
+    public Tile damagedTile;
     public int health;
 
     public override void Init(Vector2Int cell)
@@ -18,7 +18,7 @@ public class WallObject : CellObject
         m_OriginalPosition = cell;
         m_OriginalTile = GameManager.Instance.mapManager.GetCellTile(m_OriginalPosition);
 
-        GameManager.Instance.mapManager.SetCellTile(cell, ObstacleTile);
+        GameManager.Instance.mapManager.SetCellTile(cell, obstacleTile);
     }
 
     public override bool PlayerWantsToEnter()
@@ -32,7 +32,7 @@ public class WallObject : CellObject
             return true;
         } else if (health == 1)
         {
-            GameManager.Instance.mapManager.SetCellTile(m_OriginalPosition, DamagedTile);
+            GameManager.Instance.mapManager.SetCellTile(m_OriginalPosition, damagedTile);
         }
         
         return false;

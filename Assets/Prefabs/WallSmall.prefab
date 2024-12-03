@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30891c11833a67b4aaf25e0161ae8e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstacleTile: {fileID: 11400000, guid: 912a576bcc635bf4186af5fc926e7d80, type: 2}
-  DamagedTile: {fileID: 11400000, guid: 05fff34c8d9efd94381b589b27b9f0f8, type: 2}
+  obstacleTile: {fileID: 11400000, guid: 912a576bcc635bf4186af5fc926e7d80, type: 2}
+  damagedTile: {fileID: 11400000, guid: 05fff34c8d9efd94381b589b27b9f0f8, type: 2}
   health: 2
