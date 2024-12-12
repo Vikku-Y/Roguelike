@@ -6,11 +6,10 @@ public class TurnManager
     public event System.Action OnTick;
     public int turnCount = 1;
 
-    public void turnTick()
+    public void TurnTick()
     {
         turnCount++;
-        //? -> if ontick != null
+        //? means-> if ontick != null
         OnTick?.Invoke();
-        Debug.Log(turnCount.ToString());
     }
 }

@@ -11,9 +11,16 @@ public class PlayerController : MonoBehaviour
     private MapManager m_Map;
     private Vector2Int m_CellPosition;
 
+    private bool m_gameOver = false;
+
     // Update is called once per frame
     private void Update()
     {
+        if (m_gameOver) 
+        { 
+            gameObject.SetActive(false);
+            return;
+        }
         Vector2Int newCellTarget = m_CellPosition;
         bool hasMoved = false;
 
@@ -46,11 +53,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (hasMoved && GameManager.Instance.food > 0) { 
+        if (hasMoved) { 
             MapManager.CellData cellData = m_Map.GetCellData(newCellTarget);
 
             if (cellData != null && cellData.passable) {
-                GameManager.Instance.turnManager.turnTick();
+                GameManager.Instance.turnManager.TurnTick();
 
                 if (cellData.ContainedObject == null)
                 {
@@ -73,5 +80,10 @@ public class PlayerController : MonoBehaviour
     {
         m_CellPosition = cell;
         transform.position = m_Map.CellToWorld(m_CellPosition);
+    }
+
+    public void GameOver(bool state)
+    {
+        m_gameOver = state;
     }
 }
