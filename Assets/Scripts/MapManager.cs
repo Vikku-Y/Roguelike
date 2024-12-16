@@ -32,7 +32,7 @@ public class MapManager : MonoBehaviour {
 
     private List<Vector2Int> m_EmptyCells;
 
-    public void GenerateMap(Vector2Int exit, Vector2Int spawn)
+    public void Init(Vector2Int exit, Vector2Int spawn)
     {
         m_BoardData = new CellData[mapTilesX, mapTilesY];
         m_EmptyCells = new List<Vector2Int>();
@@ -64,7 +64,7 @@ public class MapManager : MonoBehaviour {
 
         generateExit(exit);
         generateWall(Random.Range(5, 11));
-        generateFood(5);
+        generateFood(Random.Range(4, 5));
     }
 
     public Vector3 CellToWorld (Vector2Int cellIndex)

@@ -8,10 +8,20 @@ using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool m_isMoving;
+    public float moveSpeed = 5f;
+    private Vector3 m_moveDirection;
+
     private MapManager m_Map;
     private Vector2Int m_CellPosition;
+    private Animator m_Animator;
 
     private bool m_gameOver = false;
+
+    private void Awake()
+    {
+        m_Animator = GetComponent<Animator>();
+    }
 
     // Update is called once per frame
     private void Update()
@@ -19,6 +29,20 @@ public class PlayerController : MonoBehaviour
         if (m_gameOver) 
         { 
             gameObject.SetActive(false);
+            return;
+        }
+
+        if (m_isMoving)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, m_moveDirection, moveSpeed*Time.deltaTime);
+
+            if (transform.position == m_moveDirection)
+            {
+                m_isMoving = false;
+                m_Animator.SetBool("Moving", false);
+                var cellData = m_Map.GetCellData(m_CellPosition);
+                if (cellData.ContainedObject != null) cellData.ContainedObject.PlayerEntered();
+            }
             return;
         }
         Vector2Int newCellTarget = m_CellPosition;
@@ -61,11 +85,10 @@ public class PlayerController : MonoBehaviour
 
                 if (cellData.ContainedObject == null)
                 {
-                    MoveTo(newCellTarget);
+                    MoveTo(newCellTarget, false);
                 } else if (cellData.ContainedObject.PlayerWantsToEnter())
                 {
-                    MoveTo(newCellTarget);
-                    cellData.ContainedObject.PlayerEntered();
+                    MoveTo(newCellTarget, false);
                 }
             } 
         }
@@ -74,12 +97,22 @@ public class PlayerController : MonoBehaviour
     {
         m_Map = mapManager;
         
-        MoveTo(cell);
+        MoveTo(cell, true);
     }
-    public void MoveTo(Vector2Int cell)
+    public void MoveTo(Vector2Int cell, bool teleport)
     {
+        m_isMoving = true;
         m_CellPosition = cell;
-        transform.position = m_Map.CellToWorld(m_CellPosition);
+
+        if (teleport)
+        {
+            m_isMoving = false;
+            transform.position = m_Map.CellToWorld(m_CellPosition);
+        }
+
+        m_Animator.SetBool("Moving", m_isMoving);
+        m_moveDirection = m_Map.CellToWorld(m_CellPosition);
+        
     }
 
     public void GameOver(bool state)

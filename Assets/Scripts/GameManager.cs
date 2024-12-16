@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
             spawnY = mapManager.mapTilesY - 2;
         }
 
-        mapManager.GenerateMap(new Vector2Int(exitX, exitY), new Vector2Int(spawnX, spawnY));
+        mapManager.Init(new Vector2Int(exitX, exitY), new Vector2Int(spawnX, spawnY));
         playerController.Spawn(mapManager, new Vector2Int(spawnX, spawnY));
     }
 

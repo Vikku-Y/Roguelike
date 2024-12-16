@@ -387,6 +387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapManager: {fileID: 1680394787}
   playerController: {fileID: 978765281}
+  enemyPrefab: {fileID: 8346365177323304776, guid: 3ebc112f50bf0074098c9f0aaf866b54, type: 3}
+  food: 100
   UIDoc: {fileID: 1666407698}
 --- !u!1 &978765280
 GameObject:
@@ -419,6 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c705da9c4ba54954481eab6ea92f9b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 10
 --- !u!95 &978765282
 Animator:
   serializedVersion: 5
