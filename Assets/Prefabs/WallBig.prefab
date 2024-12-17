@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6189054625358234433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.3033533, y: 1.2790904, z: 0}
+  m_LocalPosition: {x: 4.5, y: 5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleTile: {fileID: 11400000, guid: 40e632e06f47b0247a511d7cd9ea3ba8, type: 2}
   damagedTile: {fileID: 11400000, guid: 05fff34c8d9efd94381b589b27b9f0f8, type: 2}
-  health: 5
+  health: -55

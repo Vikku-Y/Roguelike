@@ -29,6 +29,7 @@ public class MapManager : MonoBehaviour {
     public FoodObject[] foodPrefabs;
     public WallObject[] wallPrefabs;
     public ExitCellObject exitPrefab;
+    public EnemyController enemyPrefab;
 
     private List<Vector2Int> m_EmptyCells;
 
@@ -62,9 +63,10 @@ public class MapManager : MonoBehaviour {
         }
         m_EmptyCells.Remove(spawn);
 
-        generateExit(exit);
-        generateWall(Random.Range(5, 11));
-        generateFood(Random.Range(4, 5));
+        GenerateExit(exit);
+        GenerateWall(Random.Range(5, 11));
+        GenerateFood(Random.Range(4, 5));
+        GenerateEnemies(1);
     }
 
     public Vector3 CellToWorld (Vector2Int cellIndex)
@@ -104,7 +106,7 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    public void generateFood(int foodNumber)
+    public void GenerateFood(int foodNumber)
     {
         for (int i = 0; i < foodNumber; i++)
         {
@@ -116,7 +118,7 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    public void generateWall(int wallNumber)
+    public void GenerateWall(int wallNumber)
     {
         for (int i = 0; i < wallNumber; i++)
         {
@@ -128,7 +130,19 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    public void generateExit(Vector2Int exit)
+    public void GenerateEnemies(int enemies)
+    {
+        for (int i = 0;i < enemies; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCells.Count);
+            Vector2Int coord = m_EmptyCells[randomIndex];
+            m_EmptyCells.RemoveAt(randomIndex);
+            EnemyController newEnemy = Instantiate(enemyPrefab);
+            AddObject(newEnemy, coord);
+        }
+    }
+
+    public void GenerateExit(Vector2Int exit)
     {
         AddObject(exitPrefab, exit);
         m_EmptyCells.Remove(exit);
@@ -136,11 +150,10 @@ public class MapManager : MonoBehaviour {
 
     public void AddObject(CellObject addedObject, Vector2Int cords) {
         CellData cell = m_BoardData[cords.x, cords.y];
-        
-        CellObject newObject = Instantiate(addedObject);
-        newObject.transform.position = CellToWorld(cords);
-        cell.ContainedObject = newObject;
-        newObject.Init(cords);
+
+        addedObject.transform.position = CellToWorld(cords);
+        cell.ContainedObject = addedObject;
+        addedObject.Init(cords);
 
     }
 

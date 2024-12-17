@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_moveDirection;
 
     private MapManager m_Map;
-    private Vector2Int m_CellPosition;
+    public Vector2Int CellPosition;
     private Animator m_Animator;
 
     private bool m_gameOver = false;
@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour
             {
                 m_isMoving = false;
                 m_Animator.SetBool("Moving", false);
-                var cellData = m_Map.GetCellData(m_CellPosition);
+                var cellData = m_Map.GetCellData(CellPosition);
                 if (cellData.ContainedObject != null) cellData.ContainedObject.PlayerEntered();
             }
             return;
         }
-        Vector2Int newCellTarget = m_CellPosition;
+        Vector2Int newCellTarget = CellPosition;
         bool hasMoved = false;
 
         if (Keyboard.current.upArrowKey.wasPressedThisFrame)
@@ -102,16 +102,16 @@ public class PlayerController : MonoBehaviour
     public void MoveTo(Vector2Int cell, bool teleport)
     {
         m_isMoving = true;
-        m_CellPosition = cell;
+        CellPosition = cell;
 
         if (teleport)
         {
             m_isMoving = false;
-            transform.position = m_Map.CellToWorld(m_CellPosition);
+            transform.position = m_Map.CellToWorld(CellPosition);
         }
 
         m_Animator.SetBool("Moving", m_isMoving);
-        m_moveDirection = m_Map.CellToWorld(m_CellPosition);
+        m_moveDirection = m_Map.CellToWorld(CellPosition);
         
     }
 

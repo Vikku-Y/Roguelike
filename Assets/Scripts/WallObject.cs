@@ -28,7 +28,7 @@ public class WallObject : CellObject
         if (health <= 0)
         {
             GameManager.Instance.mapManager.SetCellTile(m_OriginalPosition, m_OriginalTile);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             return true;
         } else if (health == 1)
         {
